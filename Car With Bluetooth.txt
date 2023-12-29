@@ -1,4 +1,3 @@
-// Car With Bluetooth
 #include <SoftwareSerial.h> 
 
 int rx = 2;
