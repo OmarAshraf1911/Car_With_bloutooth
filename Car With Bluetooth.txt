@@ -1,0 +1,79 @@
+// Car With Bluetooth
+#include <SoftwareSerial.h> 
+
+int rx = 2;
+int tx = 3;
+
+SoftwareSerial bluetooth(rx, tx); // RX, TX
+
+int right_motor_speed = 10;
+int right_motor_A = 8;
+int right_motor_B = 9;
+
+int left_motor_A = 6;
+int left_motor_B = 7;
+int left_motor_speed = 5;
+
+int speed_right = 150; // Speed for right motor (80-255)
+int speed_left = 150;  // Speed for left motor (80-255)
+
+void setup() {
+  pinMode(right_motor_speed, OUTPUT);
+  pinMode(right_motor_A, OUTPUT);
+  pinMode(right_motor_B, OUTPUT);
+  pinMode(left_motor_speed, OUTPUT);
+  pinMode(left_motor_A, OUTPUT);
+  pinMode(left_motor_B, OUTPUT);
+
+  bluetooth.begin(9600);
+}
+
+void loop() {
+  if (bluetooth.available()) {
+    String message = bluetooth.readStringUntil('\n');
+    message.trim();
+
+    if (message == "forward") {
+      move_F();
+    } else if (message == "backward") {
+      move_B();
+    } else if (message == "left") {
+      move_L();
+    } else if (message == "right") {
+      move_R();
+    } else if (message == "stop") {
+      STOP();
+    }
+  }
+}
+
+void move_F() {
+  analogWrite(right_motor_speed, speed_right);
+  analogWrite(left_motor_speed, speed_left);
+  digitalWrite(right_motor_A, HIGH);
+  digitalWrite(right_motor_B, LOW);
+  digitalWrite(left_motor_A, HIGH);
+  digitalWrite(left_motor_B, LOW);
+}
+
+void move_B() {
+  analogWrite(right_motor_speed, speed_right);
+  analogWrite(left_motor_speed, speed_left);
+  digitalWrite(right_motor_A, LOW);
+  digitalWrite(right_motor_B, HIGH);
+  digitalWrite(left_motor_A, LOW);
+  digitalWrite(left_motor_B, HIGH);
+}
+
+void move_L() {
+  analogWrite(right_motor_speed, speed_right);
+  analogWrite(left_motor_speed, speed_left);
+  digitalWrite(right_motor_A, HIGH);
+  digitalWrite(right_motor_B, LOW);
+  digitalWrite(left_motor_A, LOW);
+  digitalWrite(left_motor_B, HIGH);
+}
+
+void move_R() {
+  analogWrite(right_motor_speed, speed_right);
+  analogWrite(left_motor_sp
